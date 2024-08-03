@@ -6,6 +6,6 @@ namespace UsersList.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<SubCategories> SubCategories { get; set; }
+        public bool PossibleToAddSub { get; set; } = false;
     }
 }
