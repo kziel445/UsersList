@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using UsersList.Models;
+using UsersList.ViewModels;
 using UsersList.Services;
 using System.Threading.Tasks;
+using UsersList.ViewModels;
 
 namespace UsersList.Pages
 {
@@ -16,13 +17,28 @@ namespace UsersList.Pages
             _context = context;
         }
 
-        public IList<User> Users { get; set; }
+        public IList<UserViewModel> Users { get; set; }
         public async Task OnGetAsync()
         {
-            if(_context.Users != null)
+            if (_context.Users != null)
             {
-                Users = await _context.Users.ToListAsync();
+                var users = await _context.Users
+                    .Include(u => u.Category)
+                    .ToListAsync();
+
+
+                Users = users.Select(user => new UserViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Password = user.Password,
+                    BirthDate = user.BirthDate.ToShortDateString(),
+                    Phone = user.Phone,
+                    Category = user.Category.Name
+                }).ToList();
             }
+            
         }
     }
 }
