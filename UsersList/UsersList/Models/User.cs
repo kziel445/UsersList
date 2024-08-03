@@ -10,7 +10,7 @@ namespace UsersList.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public int Category { get; set; }
+        public int CategoryId { get; set; }
         public string Phone { get; set; }
         public DateTime BirthDate { get; set; }
     }
