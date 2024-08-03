@@ -13,8 +13,13 @@ namespace UsersList.Services
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Category)
+                .WithMany(c => c.Users)
+                .HasForeignKey(u => u.CategoryId);
+            
 
+            // dummy data
             modelBuilder.Entity<User>().HasData(
                 new User {
                     Id = 1, 
@@ -50,6 +55,9 @@ namespace UsersList.Services
                 new SubCategories { Id = 2, Name = "Client", CategoryId = 2 },
                 new SubCategories { Id = 3, Name = "Random", CategoryId = 3 }
                 );
+
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
