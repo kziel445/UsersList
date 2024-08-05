@@ -31,6 +31,7 @@ namespace UsersList.Pages
                 {
                     Id = user.Id,
                     Name = user.Name,
+                    LastName = user.LastName,
                     Email = user.Email,
                     Password = user.Password,
                     BirthDate = user.BirthDate.ToShortDateString(),

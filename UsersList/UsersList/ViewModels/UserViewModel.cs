@@ -12,8 +12,6 @@ namespace UsersList.ViewModels
         public string Phone { get; set; }
         public string BirthDate { get; set; }
 
-        // Foreign key 
-        public int CategoryId { get; set; }
         // Navigation
         public string Category { get; set; }
     }
