@@ -14,9 +14,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        //var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        // var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+        await DataSeeder.SeedData(services);
+    }
+    catch (Exception ex)
+    {
+        // Log any errors during seeding
+        Console.WriteLine(ex.Message);
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -80,7 +80,7 @@ namespace UsersList.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-
+            [Display(Name = "FirstName")]
             public string FirstName { get; set; }
 
             /// <summary>
