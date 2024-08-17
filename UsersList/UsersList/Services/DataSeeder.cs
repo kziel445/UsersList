@@ -11,10 +11,16 @@ namespace UsersList.Services
         public static async Task SeedData(IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            await SeedAdmin(userManager);
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            await SeedAdmin(userManager, roleManager);
         } 
-        private static async Task SeedAdmin(UserManager<ApplicationUser> userManager)
+        private static async Task SeedAdmin(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            if(!await roleManager.RoleExistsAsync("Admin"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
             var adminUser = await userManager.FindByEmailAsync("admin@admin.com"); 
             if(adminUser== null)
             {
@@ -35,6 +41,7 @@ namespace UsersList.Services
 
             
             await userManager.CreateAsync(adminUser, password);
+            await userManager.AddToRoleAsync(adminUser, "Admin");
 
         }
     }
