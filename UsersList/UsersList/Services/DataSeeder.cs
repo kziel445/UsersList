@@ -21,12 +21,13 @@ namespace UsersList.Services
             {
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
             }
+
             var adminUser = await userManager.FindByEmailAsync("admin@admin.com"); 
             if(adminUser== null)
             {
                 adminUser = new ApplicationUser
                 {
-                    Id = "admin-user-id",
+                    Id = Guid.NewGuid().ToString(),
                     FirstName = "Johny",
                     CreateAt = DateTime.UtcNow,
                     UserName = "admin@admin.com",
